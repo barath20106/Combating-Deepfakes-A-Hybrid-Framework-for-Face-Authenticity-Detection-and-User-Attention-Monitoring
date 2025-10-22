@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hybrid Deepfake & Attention Detection</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #ffecd2, #fcb69f);
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #4b0082;
+            text-shadow: 1px 1px 5px #fff;
+        }
+        #video-container {
+            margin-top: 20px;
+            border: 5px solid #4b0082;
+            display: inline-block;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+        .btn {
+            margin: 10px 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #fff;
+            transition: 0.3s;
+        }
+        .btn-upload { background-color: #4b0082; }
+        .btn-upload:hover { background-color: #6a0dad; }
+        .btn-calibrate { background-color: #ff4500; }
+        .btn-calibrate:hover { background-color: #ff6347; }
+        .btn-camera { background-color: #008080; }
+        .btn-camera:hover { background-color: #20b2aa; }
+        select {
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        .status {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #000;
+        }
+        .uploaded-image {
+            margin-top: 15px;
+            border: 3px solid #4b0082;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hybrid Deepfake & Attention Detection</h1>
+
+    <div id="video-container">
+        <img src="{{ url_for('video_feed') }}" width="480" height="360">
+    </div>
+
+    <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <button type="submit" class="btn btn-upload">Upload Image</button>
+    </form>
+
+    <form action="/" method="post" style="display:inline-block;">
+        <button name="calibrate" value="1" type="submit" class="btn btn-calibrate">Calibrate Attention</button>
+    </form>
+
+    <form action="/" method="post" style="display:inline-block;">
+        <label for="camera_index">Camera Index:</label>
+        <select name="camera_index" id="camera_index">
+            {% for i in range(4) %}
+            <option value="{{i}}" {% if selected_camera == i %}selected{% endif %}>{{i}}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-camera">Switch Camera</button>
+    </form>
+
+    <form action="/" method="post" style="display:inline-block;">
+        <button name="toggle_camera" value="1" type="submit" class="btn btn-camera">
+            {% if camera_on %}Turn Camera OFF{% else %}Turn Camera ON{% endif %}
+        </button>
+    </form>
+
+    {% if error %}
+        <p class="status" style="color:red;">{{ error }}</p>
+    {% endif %}
+
+    {% if uploaded_image %}
+        <div class="uploaded-image">
+            <h3>Uploaded Image</h3>
+            <img src="{{ url_for('static', filename=uploaded_image) }}" width="256" height="256">
+        </div>
+    {% endif %}
+
+    {% if authenticity %}
+        <p class="status">Uploaded Image Authenticity: {{ authenticity }}</p>
+    {% endif %}
+</body>
+</html>
