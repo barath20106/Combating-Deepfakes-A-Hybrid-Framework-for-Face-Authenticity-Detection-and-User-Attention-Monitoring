@@ -1,0 +1,3 @@
+ChatGPT said:
+
+The growing realism of AI-generated faces threatens biometric security, enabling spoofing and deepfake attacks. To counter this, we built a web-based system that combines head pose estimation, attention tracking, and face authenticity detection. Using MediaPipe for facial landmarks, it monitors head movement and gaze, while a custom classifier detects if a face is real or AI-generated. This dual check enhances security through behavioral and authenticity analysis. The system works with webcam feeds or uploaded images, ideal for remote exams, secure logins, and surveillance. Running entirely in a web browser, it needs no extra hardware and offers a scalable, practical defense against deepfake threats.
